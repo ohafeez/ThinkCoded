@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thinkcoded — Quality Assurance Consultancy</title>
+  <meta name="description" content="Thinkcoded helps engineering teams ship with confidence through expert QA strategy, test automation, and quality engineering." />
+  <link rel="canonical" href="https://www.thinkcoded.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #f7f6f2;
+      --surface:      #ffffff;
+      --text-primary: #1a1a18;
+      --text-muted:   #6b6b65;
+      --accent:       #1a1a18;
+      --accent-light: #e8e6df;
+      --green:        #2d5a27;
+      --green-light:  #eaf3de;
+      --border:       rgba(26,26,24,0.1);
+      --radius-sm:    0.6rem;
+      --radius-md:    1rem;
+      --radius-lg:    1.25rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── UTILITIES ─────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--green);
+      background: var(--green-light);
+      padding: 0.35rem 0.85rem; border-radius: 2rem;
+      margin-bottom: 1.25rem;
+    }
+    .eyebrow::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--green); border-radius: 50%; flex-shrink: 0;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      line-height: 1.08; letter-spacing: -0.025em;
+      margin-bottom: 1.25rem;
+    }
+    h1 em { font-style: italic; color: var(--green); }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      line-height: 1.12; letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    h2 em { font-style: italic; color: var(--green); }
+
+    h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem; margin-bottom: 0.65rem;
+    }
+
+    .section-sub {
+      font-size: 1rem; color: var(--text-muted);
+      line-height: 1.75; margin-bottom: 3rem; max-width: 520px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--text-primary); color: #fff;
+      padding: 0.85rem 2rem; border-radius: 2rem;
+      font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.78; }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      color: var(--text-primary); font-size: 0.9rem; font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid var(--text-primary); padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .btn-ghost:hover { opacity: 0.5; }
+
+    /* ── NAV ────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(247,246,242,0.93);
+      backdrop-filter: blur(10px);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem; letter-spacing: -0.01em;
+      color: var(--text-primary); text-decoration: none;
+    }
+    .nav-logo span { color: var(--green); }
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-cta {
+      background: var(--text-primary); color: #fff;
+      padding: 0.55rem 1.3rem; border-radius: 2rem;
+      font-size: 0.875rem; font-weight: 500;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.78; }
+
+    /* mobile nav */
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px; background: none; border: none;
+    }
+    .nav-toggle span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--text-primary); transition: all 0.25s;
+    }
+
+    /* ── HERO ───────────────────────────────────── */
+    #hero {
+      min-height: 100vh; padding: 8rem 2rem 5rem;
+      display: flex; align-items: center;
+    }
+    .hero-grid {
+      max-width: 1100px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--text-muted);
+      line-height: 1.75; margin-bottom: 2.25rem; max-width: 440px;
+    }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+    /* hero visual cards */
+    .hero-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .hcard {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md); padding: 1.5rem;
+    }
+    .hcard-label {
+      font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted); font-weight: 500; margin-bottom: 0.9rem;
+    }
+    .stat-row { display: flex; gap: 1.5rem; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem; color: var(--text-primary); line-height: 1;
+    }
+    .stat-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    .bar-list { display: flex; flex-direction: column; gap: 0.65rem; }
+    .bar-row { display: flex; align-items: center; gap: 0.75rem; font-size: 0.8rem; }
+    .bar-name { width: 96px; color: var(--text-muted); flex-shrink: 0; }
+    .bar-track {
+      flex: 1; height: 5px; background: var(--accent-light);
+      border-radius: 3px; overflow: hidden;
+    }
+    .bar-fill { height: 100%; border-radius: 3px; background: var(--green); }
+    .bar-val { width: 28px; text-align: right; font-weight: 500; }
+
+    .badge-row { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+    .badge {
+      font-size: 0.73rem; padding: 0.28rem 0.65rem; border-radius: 2rem;
+      background: var(--accent-light); color: var(--text-muted);
+      border: 0.5px solid var(--border);
+    }
+    .badge.green { background: var(--green-light); color: var(--green); }
+
+    /* ── SERVICES ───────────────────────────────── */
+    #services { background: var(--surface); padding: 6rem 2rem; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+    }
+    .service-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md); padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+    .service-card:hover { border-color: rgba(26,26,24,0.3); }
+    .service-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--green-light);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.1rem;
+    }
+    .service-icon svg {
+      width: 20px; height: 20px;
+      stroke: var(--green); fill: none; stroke-width: 1.5;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .service-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── CASE STUDIES ───────────────────────────── */
+    #cases { padding: 6rem 2rem; }
+    .cases-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
+    }
+    .case-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md); padding: 2rem;
+      display: flex; flex-direction: column; gap: 0.9rem;
+    }
+    .case-tag {
+      font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--green); background: var(--green-light);
+      display: inline-block; padding: 0.28rem 0.65rem; border-radius: 2rem;
+      font-weight: 500; align-self: flex-start;
+    }
+    .case-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.25; }
+    .case-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+    .case-metrics {
+      display: flex; gap: 1.5rem;
+      padding-top: 1rem; border-top: 0.5px solid var(--border);
+      margin-top: auto;
+    }
+    .case-metric-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.55rem; color: var(--green);
+    }
+    .case-metric-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+    /* ── TEAM ───────────────────────────────────── */
+    #team { background: var(--surface); padding: 6rem 2rem; }
+    .team-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+    }
+    .team-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md); padding: 1.5rem;
+      text-align: center;
+    }
+    .avatar {
+      width: 62px; height: 62px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif; font-size: 1.2rem;
+      margin: 0 auto 1rem;
+    }
+    .av-a { background: #eaf3de; color: #2d5a27; }
+    .av-b { background: #e8f0fb; color: #1d4d8a; }
+    .av-c { background: #faeeda; color: #854f0b; }
+    .av-d { background: #fbeaf0; color: #993556; }
+    .team-name { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+    .team-role { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ── TESTIMONIALS ───────────────────────────── */
+    #testimonials { background: var(--text-primary); padding: 6rem 2rem; }
+    #testimonials .eyebrow {
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);
+    }
+    #testimonials .eyebrow::before { background: rgba(255,255,255,0.6); }
+    #testimonials h2 { color: #fff; }
+    #testimonials h2 em { color: #8fc98a; }
+    #testimonials .section-sub { color: rgba(255,255,255,0.5); }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+    }
+    .testi-card {
+      background: rgba(255,255,255,0.06);
+      border: 0.5px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-md); padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+    .testi-quote {
+      font-size: 0.95rem; color: rgba(255,255,255,0.78);
+      line-height: 1.8; font-style: italic; flex: 1;
+    }
+    .testi-author { display: flex; align-items: center; gap: 0.75rem; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; color: rgba(255,255,255,0.65); font-weight: 500;
+      flex-shrink: 0;
+    }
+    .testi-name { font-size: 0.85rem; font-weight: 500; color: #fff; }
+    .testi-co { font-size: 0.75rem; color: rgba(255,255,255,0.38); margin-top: 0.1rem; }
+
+    /* ── CONTACT ────────────────────────────────── */
+    #contact { padding: 6rem 2rem; }
+    .contact-wrap {
+      max-width: 620px; margin: 0 auto;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg); padding: 3rem;
+    }
+    .contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .field.full { grid-column: 1 / -1; }
+    label { font-size: 0.78rem; font-weight: 500; color: var(--text-muted); }
+    input, textarea, select {
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      padding: 0.7rem 1rem;
+      border: 0.5px solid var(--border); border-radius: var(--radius-sm);
+      background: var(--bg); color: var(--text-primary);
+      outline: none; transition: border-color 0.2s;
+      width: 100%;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--green); }
+    textarea { min-height: 120px; resize: vertical; }
+    .btn-submit {
+      width: 100%; margin-top: 0.25rem;
+      background: var(--text-primary); color: #fff;
+      padding: 0.9rem; border: none; border-radius: 2rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.78; }
+
+    /* ── FOOTER ─────────────────────────────────── */
+    footer {
+      background: var(--text-primary); padding: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem; color: #fff; text-decoration: none;
+    }
+    .footer-logo span { color: #8fc98a; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.8rem; color: rgba(255,255,255,0.38);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.7); }
+    .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+
+    /* ── MOBILE ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
+
+      .nav-links.open {
+        display: flex; flex-direction: column; gap: 0;
+        position: absolute; top: 64px; left: 0; right: 0;
+        background: var(--bg); border-bottom: 0.5px solid var(--border);
+        padding: 1rem 2rem;
+      }
+      .nav-links.open li { border-bottom: 0.5px solid var(--border); }
+      .nav-links.open a { display: block; padding: 0.85rem 0; font-size: 1rem; color: var(--text-primary); }
+
+      #hero { padding: 7rem 1.5rem 4rem; }
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .cases-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+
+      .contact-row { grid-template-columns: 1fr; }
+      .contact-wrap { padding: 2rem 1.5rem; }
+
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @media (max-width: 560px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">Thinkcoded<span>.</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#cases">Case Studies</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Quality Assurance Consultancy</div>
+      <h1>Software testing done <em>right</em></h1>
+      <p class="hero-sub">Thinkcoded helps engineering teams ship with confidence. From test strategy to automated pipelines, we embed quality into every layer of your product.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Start a conversation</a>
+        <a href="#cases" class="btn-ghost">See our work &rarr;</a>
+      </div>
+    </div>
+    <div class="hero-cards">
+      <div class="hcard">
+        <div class="hcard-label">Last release report</div>
+        <div class="stat-row">
+          <div>
+            <div class="stat-num">98.4%</div>
+            <div class="stat-desc">Test pass rate</div>
+          </div>
+          <div>
+            <div class="stat-num">0</div>
+            <div class="stat-desc">Critical bugs shipped</div>
+          </div>
+          <div>
+            <div class="stat-num">4.2&times;</div>
+            <div class="stat-desc">Faster release cycle</div>
+          </div>
+        </div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-label">Coverage by category</div>
+        <div class="bar-list">
+          <div class="bar-row"><span class="bar-name">Unit tests</span><div class="bar-track"><div class="bar-fill" style="width:96%"></div></div><span class="bar-val">96%</span></div>
+          <div class="bar-row"><span class="bar-name">Integration</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-val">88%</span></div>
+          <div class="bar-row"><span class="bar-name">End-to-end</span><div class="bar-track"><div class="bar-fill" style="width:74%"></div></div><span class="bar-val">74%</span></div>
+          <div class="bar-row"><span class="bar-name">Performance</span><div class="bar-track"><div class="bar-fill" style="width:81%"></div></div><span class="bar-val">81%</span></div>
+        </div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-label">Specialisations</div>
+        <div class="badge-row">
+          <span class="badge green">Test Automation</span>
+          <span class="badge green">CI/CD</span>
+          <span class="badge">Performance</span>
+          <span class="badge">Security QA</span>
+          <span class="badge">API Testing</span>
+          <span class="badge">Accessibility</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="eyebrow">What we do</div>
+    <h2>End-to-end quality <em>coverage</em></h2>
+    <p class="section-sub">From strategy to execution, we provide the full spectrum of QA services tailored to your team's needs and risk profile.</p>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+        </div>
+        <h3>Test strategy &amp; audit</h3>
+        <p class="service-desc">We assess your current quality posture, identify gaps, and design a testing strategy aligned to your product roadmap and risk profile.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <h3>Test automation</h3>
+        <p class="service-desc">Robust, maintainable automation frameworks using Playwright, Cypress, Selenium, and more — cutting manual effort without sacrificing coverage.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3>Performance testing</h3>
+        <p class="service-desc">Load, stress, and endurance tests that reveal how your system behaves under real-world conditions — before your users find out the hard way.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3>Security QA</h3>
+        <p class="service-desc">Systematic vulnerability scanning, penetration test coordination, and OWASP-aligned testing to harden your application against real threats.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </div>
+        <h3>CI/CD integration</h3>
+        <p class="service-desc">Quality gates embedded in your pipelines — GitHub Actions, Jenkins, CircleCI — so every commit is tested automatically before it ships.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+        </div>
+        <h3>Accessibility testing</h3>
+        <p class="service-desc">WCAG 2.2 compliance audits and assistive technology testing that make your product usable by everyone — and defensible in any procurement audit.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="container">
+    <div class="eyebrow">Case studies</div>
+    <h2>Real problems, <em>measurable</em> results</h2>
+    <p class="section-sub">We don't just run tests — we solve engineering problems and leave teams better than we found them.</p>
+    <div class="cases-grid">
+
+      <div class="case-card">
+        <span class="case-tag">Fintech &middot; Automation</span>
+        <div class="case-title">Zero-regression deployment for a payments platform</div>
+        <p class="case-desc">A Series B fintech was manually testing 3,000 scenarios before each release, eating two weeks per cycle. We built a full Playwright suite integrated with their GitHub Actions pipeline, dramatically cutting release time while increasing coverage.</p>
+        <div class="case-metrics">
+          <div>
+            <div class="case-metric-num">87%</div>
+            <div class="case-metric-label">Reduction in regression time</div>
+          </div>
+          <div>
+            <div class="case-metric-num">3,400+</div>
+            <div class="case-metric-label">Automated test cases</div>
+          </div>
+          <div>
+            <div class="case-metric-num">0</div>
+            <div class="case-metric-label">Prod regressions in 6 months</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <span class="case-tag">Healthcare &middot; Performance</span>
+        <div class="case-title">Load testing a patient portal before a national rollout</div>
+        <p class="case-desc">A healthcare SaaS was scaling from 10k to 500k users. We ran comprehensive load and soak testing with k6, identified three critical bottlenecks, and worked with the engineering team to resolve them before go-live.</p>
+        <div class="case-metrics">
+          <div>
+            <div class="case-metric-num">50&times;</div>
+            <div class="case-metric-label">Increase in user capacity</div>
+          </div>
+          <div>
+            <div class="case-metric-num">3</div>
+            <div class="case-metric-label">Critical issues caught pre-launch</div>
+          </div>
+          <div>
+            <div class="case-metric-num">99.9%</div>
+            <div class="case-metric-label">Uptime on launch day</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <span class="case-tag">E-commerce &middot; CI/CD</span>
+        <div class="case-title">Rebuilding the QA pipeline for a D2C brand</div>
+        <p class="case-desc">Their test suite was slow, brittle, and rarely ran to completion. We rewrote it from scratch with Cypress, parallelised execution on GitHub Actions, and introduced a test-ownership model across engineering squads.</p>
+        <div class="case-metrics">
+          <div>
+            <div class="case-metric-num">12 min</div>
+            <div class="case-metric-label">Full suite runtime (was 90+ min)</div>
+          </div>
+          <div>
+            <div class="case-metric-num">4&times;</div>
+            <div class="case-metric-label">Deploy frequency increase</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <span class="case-tag">SaaS &middot; Accessibility</span>
+        <div class="case-title">WCAG 2.2 AA compliance for an enterprise dashboard</div>
+        <p class="case-desc">An enterprise SaaS needed WCAG 2.2 AA compliance for a major government contract. We audited 140 screens, triaged 220 issues by severity, and embedded automated accessibility checks into their CI pipeline.</p>
+        <div class="case-metrics">
+          <div>
+            <div class="case-metric-num">220</div>
+            <div class="case-metric-label">Issues triaged &amp; resolved</div>
+          </div>
+          <div>
+            <div class="case-metric-num">AA</div>
+            <div class="case-metric-label">WCAG 2.2 compliance achieved</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <div class="eyebrow">The team</div>
+    <h2>Quality engineers, <em>not just testers</em></h2>
+    <p class="section-sub">Our consultants come from engineering backgrounds — they understand code, architecture, and product, which makes their QA work fundamentally different.</p>
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="avatar av-a">SR</div>
+        <div class="team-name">Sophia Reid</div>
+        <div class="team-role">Principal QA Consultant</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar av-b">JC</div>
+        <div class="team-name">James Chen</div>
+        <div class="team-role">Automation Lead</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar av-c">AM</div>
+        <div class="team-name">Amara Mensah</div>
+        <div class="team-role">Performance Engineer</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar av-d">LP</div>
+        <div class="team-name">Liam Park</div>
+        <div class="team-role">Security QA Specialist</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="eyebrow">Testimonials</div>
+    <h2>Trusted by teams that <em>ship</em></h2>
+    <p class="section-sub">We measure success by what our clients say after we've left.</p>
+    <div class="testi-grid">
+
+      <div class="testi-card">
+        <p class="testi-quote">"Thinkcoded didn't just build us a test suite — they changed how our whole engineering team thinks about quality. Six months on, we're still feeling the benefit."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">DK</div>
+          <div>
+            <div class="testi-name">Daniel Kim</div>
+            <div class="testi-co">CTO, Paylane</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-quote">"The performance testing engagement was eye-opening. They found issues we didn't know existed and had clear, actionable fixes. The launch went flawlessly."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">FO</div>
+          <div>
+            <div class="testi-name">Fatima Osei</div>
+            <div class="testi-co">VP Engineering, Medify</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-quote">"Our CI pipeline went from a liability to a genuine competitive advantage. We deploy four times more often and sleep much better on Friday evenings."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">MT</div>
+          <div>
+            <div class="testi-name">Marc Tanner</div>
+            <div class="testi-co">Head of Engineering, Arro</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:3rem;">
+      <div class="eyebrow" style="justify-content:center;">Get in touch</div>
+      <h2>Let's talk about <em>your</em> quality</h2>
+      <p class="section-sub" style="margin:0 auto;">Tell us about your project. We'll get back to you within one business day.</p>
+    </div>
+    <div class="contact-wrap">
+      <form action="mailto:hello@thinkcoded.com" method="POST" enctype="text/plain">
+        <div class="contact-row">
+          <div class="field">
+            <label for="fname">First name</label>
+            <input type="text" id="fname" name="First name" placeholder="Alex" required />
+          </div>
+          <div class="field">
+            <label for="lname">Last name</label>
+            <input type="text" id="lname" name="Last name" placeholder="Johnson" required />
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="field">
+            <label for="email">Work email</label>
+            <input type="email" id="email" name="Email" placeholder="alex@company.com" required />
+          </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="Company" placeholder="Acme Inc." />
+          </div>
+        </div>
+        <div class="field">
+          <label for="service">Service of interest</label>
+          <select id="service" name="Service">
+            <option value="">Select a service…</option>
+            <option>Test strategy &amp; audit</option>
+            <option>Test automation</option>
+            <option>Performance testing</option>
+            <option>Security QA</option>
+            <option>CI/CD integration</option>
+            <option>Accessibility testing</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Tell us about your project</label>
+          <textarea id="message" name="Message" placeholder="What's your current testing setup? What challenges are you facing?"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send message &rarr;</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#hero" class="footer-logo">Thinkcoded<span>.</span></a>
+  <nav class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#cases">Case Studies</a>
+    <a href="#team">Team</a>
+    <a href="#contact">Contact</a>
+    <a href="mailto:hello@thinkcoded.com">hello@thinkcoded.com</a>
+  </nav>
+  <span class="footer-copy">&copy; 2026 Thinkcoded. All rights reserved.</span>
+</footer>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const links  = document.getElementById('nav-links');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+</script>
+
+</body>
+</html>
